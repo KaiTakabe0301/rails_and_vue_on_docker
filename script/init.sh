@@ -4,6 +4,8 @@ docker-compose build
 
 docker-compose run --rm app rails new . --force --database=mysql --webpack=vue
 
+docker-compose run --rm app yarn install --check-files
+
 cp template/puma.rb config/puma.rb
 
 cp template/database.yml config/database.yml
@@ -21,6 +23,8 @@ docker-compose up -d
 docker-compose exec db mysql -u root -p -e"$(cat db/grant_user.sql)"
 
 docker-compose exec app rails db:create
+
+docker-compose exec app rails db:migrate
 
 # docker-compose run --rm app rails webpacker:install
 
